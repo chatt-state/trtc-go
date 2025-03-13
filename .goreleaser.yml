@@ -48,6 +48,8 @@ builds:
       - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
+    tags:
+      - nosoftwaregl
 
   - id: trtc-go-gui-linux
     main: ./cmd/gui
@@ -61,6 +63,8 @@ builds:
       - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
+    tags:
+      - nosoftwaregl
 
 archives:
   - id: trtc-go-archives

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   goreleaser:
-    runs-on: macos-latest  # Run only on macOS for consistent builds
+    runs-on: macos-latest  # Run on macOS for consistent builds
     steps:
       - name: Checkout
         uses: actions/checkout@v3
