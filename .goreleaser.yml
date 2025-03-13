@@ -16,6 +16,7 @@ release:
   name_template: "{{ .ProjectName }} v{{ .Version }}"
 
 builds:
+  # CLI builds (no GUI, no OpenGL dependencies)
   - id: trtc-go-cli
     main: ./cmd/cli
     binary: trtc-go
@@ -29,7 +30,6 @@ builds:
       - amd64
     ldflags:
       - -s -w -X main.Version={{.Version}}
-    # Add build flags for optimization
     flags:
       - -trimpath
 
@@ -45,25 +45,39 @@ builds:
       - amd64
     ldflags:
       - -s -w -X main.Version={{.Version}}
-    # Add build flags for optimization
     flags:
       - -trimpath
       - -tags=darwin
-      
-  # Build GUI for Windows and Linux with GLES tag
-  - id: trtc-go-gui-windows-linux
+
+  # Build GUI for Windows with CGO enabled and specific tags
+  - id: trtc-go-gui-windows
     main: ./cmd/gui
     binary: trtc-go-gui
     env:
-      - CGO_ENABLED=0
+      - CGO_ENABLED=1
     goos:
       - windows
+    goarch:
+      - amd64
+    flags:
+      - -trimpath
+      - -tags=windows
+    ldflags:
+      - -s -w -X main.Version={{.Version}}
+    
+  # Build GUI for Linux with CGO enabled and specific tags
+  - id: trtc-go-gui-linux
+    main: ./cmd/gui
+    binary: trtc-go-gui
+    env:
+      - CGO_ENABLED=1
+    goos:
       - linux
     goarch:
       - amd64
     flags:
-      - -tags=gles
       - -trimpath
+      - -tags=linux
     ldflags:
       - -s -w -X main.Version={{.Version}}
 
