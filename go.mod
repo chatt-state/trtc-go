@@ -3,7 +3,7 @@ module github.com/chatt-state/trtc-go
 go 1.24
 
 require (
-	fyne.io/fyne/v2 v2.5.4
+	fyne.io/fyne/v2 v2.5.5
 	github.com/ncruces/zenity v0.10.14
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.19.0

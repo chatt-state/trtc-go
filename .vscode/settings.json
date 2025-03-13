@@ -1,10 +1,19 @@
 {
-    "go.buildTags": "gles,js",
+    "go.buildTags": "gles,js,darwin",
     "go.lintTool": "golangci-lint",
     "go.lintFlags": [
         "--fast"
     ],
     "go.toolsEnvVars": {
         "GOOS": "darwin"
+    },
+    "go.vetFlags": [
+        "-tags=gles,js,darwin"
+    ],
+    "gopls": {
+        "ui.diagnostic.analyses": {
+            "unusedparams": false
+        },
+        "ui.completion.usePlaceholders": true
     }
 } 

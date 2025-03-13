@@ -291,7 +291,7 @@ func showSettingsDialog(w fyne.Window) {
 				return
 			}
 
-			dialog.ShowInformation("Settings", "Settings saved successfully", w)
+			ui.ShowSuccessDialog("Settings", "Settings saved successfully", w)
 		},
 		OnCancel: func() {
 			// Do nothing
@@ -363,7 +363,7 @@ func performUpload(
 	// Update status
 	if response.Success {
 		statusLabel.SetText("Upload successful!")
-		dialog.ShowInformation("Success", "Files uploaded successfully", w)
+		ui.ShowSuccessDialog("Success", "Files uploaded successfully", w)
 	} else {
 		statusLabel.SetText(fmt.Sprintf("Upload failed with status code %d", response.Code))
 		dialog.ShowError(fmt.Errorf("upload failed: %s", response.Message), w)

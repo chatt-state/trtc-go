@@ -2,8 +2,31 @@ run:
   build-tags:
     - gles
   timeout: 5m
-  skip-dirs:
+  allow-parallel-runners: true
+  go: '1.24'
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+
+issues:
+  exclude-dirs:
     - github.com/go-gl/gl
     - github.com/go-gl/glfw
-  skip-files:
-    - ".*_test\\.go$" 
+    - fyne.io/fyne/v2/internal/painter/gl
+  exclude-dirs-use-default: true
+  exclude-files:
+    - ".*_test\\.go$"
+  exclude-rules:
+    - path: fyne.io/fyne
+      linters:
+        - all
+    - path: github.com/go-gl
+      linters:
+        - all 

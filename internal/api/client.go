@@ -2,7 +2,6 @@ package api
 
 import (
 	"bytes"
-	"crypto/tls"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -30,16 +29,9 @@ type Client struct {
 
 // NewClient creates a new API client
 func NewClient(endpoint string, ignoreCertError bool, logger *logger.Logger) *Client {
-	// Create HTTP client with custom transport if needed
-	transport := &http.Transport{
-		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: ignoreCertError,
-		},
-	}
-
+	// Create a standard HTTP client with timeout
 	httpClient := &http.Client{
-		Transport: transport,
-		Timeout:   10 * time.Minute, // 10 minutes timeout, same as original
+		Timeout: 10 * time.Minute, // 10 minutes timeout
 	}
 
 	return &Client{

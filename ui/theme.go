@@ -26,6 +26,21 @@ func (t *TennesseeTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVaria
 	white := color.NRGBA{R: 255, G: 255, B: 255, A: 255}      // #FFFFFF
 	lighterBlue := color.NRGBA{R: 20, G: 60, B: 124, A: 255}  // #143C7C
 
+	// Handle information dialog text color
+	if name == theme.ColorNameForeground && strings.Contains(string(name), "information") {
+		return white
+	}
+
+	// Handle success dialog text color
+	if name == theme.ColorNameSuccess {
+		return tennesseeBlue
+	}
+
+	// Handle text on success backgrounds
+	if name == theme.ColorNameForegroundOnSuccess {
+		return white
+	}
+
 	// Direct handling for specific color names
 	if name == theme.ColorNameButton {
 		return tennesseeBlue
@@ -106,9 +121,6 @@ func (t *TennesseeTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVaria
 		return lighterBlue
 	case theme.ColorNameScrollBar:
 		// Tennessee Blue for scrollbars
-		return tennesseeBlue
-	case theme.ColorNameSuccess:
-		// Tennessee Blue for success
 		return tennesseeBlue
 	case theme.ColorNameError:
 		// Tennessee Red for error

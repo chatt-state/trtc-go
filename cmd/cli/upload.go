@@ -43,7 +43,9 @@ At least one file must be specified.`,
 	uploadCmd.Flags().StringVar(&studentCoursesPath, "studentcourses", "", "Path to student courses file")
 
 	// Mark required flags
-	uploadCmd.MarkFlagRequired("apikey")
+	if err := uploadCmd.MarkFlagRequired("apikey"); err != nil {
+		fmt.Fprintf(os.Stderr, "Error marking apikey flag as required: %v\n", err)
+	}
 
 	return uploadCmd
 }

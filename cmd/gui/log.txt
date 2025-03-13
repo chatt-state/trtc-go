@@ -16,3 +16,9 @@ INFO: 2025/03/13 10:00:11 Logger initialized at 2025-03-13T10:00:11-04:00
 INFO: 2025/03/13 10:00:18 Zenity file dialog was cancelled by user
 INFO: 2025/03/13 10:02:20 Logger initialized at 2025-03-13T10:02:20-04:00
 INFO: 2025/03/13 10:02:32 Zenity file dialog was cancelled by user
+INFO: 2025/03/13 12:10:20 Logger initialized at 2025-03-13T12:10:20-04:00
+INFO: 2025/03/13 12:10:34 Uploading files to https://rts.tnreversetransfer.org/api/Upload
+INFO: 2025/03/13 12:10:34 Adding file: /Users/asachs/Downloads/sp25_rts_student_course_history.csv (type: studentcourses)
+INFO: 2025/03/13 12:10:34 Sending request to https://rts.tnreversetransfer.org/api/Upload
+INFO: 2025/03/13 12:10:39 Response: 200 200 OK
+INFO: 2025/03/13 12:10:39 Upload successful
