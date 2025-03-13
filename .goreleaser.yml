@@ -2,6 +2,9 @@ version: 2
 
 project_name: trtc-go
 
+# Add timeout to prevent hanging builds
+timeout: 30m
+
 before:
   hooks:
     - go mod tidy
@@ -21,6 +24,9 @@ builds:
       - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
+    # Add build flags for optimization
+    flags:
+      - -trimpath
 
   # Build GUI only for macOS natively with CGO enabled
   - id: trtc-go-gui-darwin
@@ -35,6 +41,10 @@ builds:
       - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
+    # Add build flags for optimization
+    flags:
+      - -trimpath
+      - -tags=darwin
       
   # Build GUI for Windows and Linux with GLES tag
   - id: trtc-go-gui-windows-linux
@@ -50,9 +60,11 @@ builds:
       - arm64
     flags:
       - -tags=gles
+      - -trimpath
     ldflags:
       - -s -w -X main.Version={{.Version}}
 
+# Use faster compression
 archives:
   - id: trtc-go-archives
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
@@ -60,18 +72,24 @@ archives:
       - README.md
       - LICENSE
       - CHANGELOG.md
-    formats:
-      - tar.gz
+    # Use faster compression levels
     format_overrides:
       - goos: windows
-        formats:
-          - zip
-
+        format: zip
+      - goos: darwin
+        format: zip
+      - goos: linux
+        format: tar.gz
+        
+# Skip unnecessary steps for faster builds
 checksum:
   name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  algorithm: sha256
 
+# Optimize changelog generation
 changelog:
   sort: asc
+  use: github
   filters:
     exclude:
       - '^docs:'

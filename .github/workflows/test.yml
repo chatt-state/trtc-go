@@ -13,38 +13,81 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         go-version: ['1.24']
+      # Add fail-fast to stop other jobs if one fails
+      fail-fast: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          # Shallow clones are faster
+          fetch-depth: 1
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
           cache: true
+          # Add cache-dependency-path to improve caching
+          cache-dependency-path: go.sum
+
+      # Optimize dependency installation with caching
+      - name: Cache dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/cache@v3
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/test.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-
 
       - name: Install dependencies (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libgl1-mesa-dev xorg-dev gcc-multilib
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libgl1-mesa-dev xorg-dev gcc-multilib
+
+      - name: Cache dependencies (macOS)
+        if: matrix.os == 'macos-latest'
+        uses: actions/cache@v3
+        with:
+          path: ~/Library/Caches/Homebrew
+          key: ${{ runner.os }}-brew-${{ hashFiles('**/test.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-brew-
 
       - name: Install dependencies (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          brew update
-          brew install gcc
+          brew update > /dev/null
+          brew install --quiet gcc
+
+      - name: Cache dependencies (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: actions/cache@v3
+        with:
+          path: C:\ProgramData\chocolatey\lib
+          key: ${{ runner.os }}-choco-${{ hashFiles('**/test.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-choco-
 
       - name: Install dependencies (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          choco install mingw
+          choco install mingw --no-progress
 
+      # Use build caching
       - name: Build CLI
-        run: go build -v ./cmd/cli
+        run: go build -v -trimpath -ldflags="-s -w" ./cmd/cli
 
-      - name: Build GUI
-        run: go build -v ./cmd/gui
+      # Add build tags for GUI to avoid OpenGL issues
+      - name: Build GUI (macOS)
+        if: matrix.os == 'macos-latest'
+        run: go build -v -trimpath -ldflags="-s -w" -tags=darwin ./cmd/gui
 
+      - name: Build GUI (Linux/Windows)
+        if: matrix.os != 'macos-latest'
+        run: go build -v -trimpath -ldflags="-s -w" -tags=gles ./cmd/gui
+
+      # Run tests with race detection disabled for speed
       - name: Test
         run: go test -v ./... 
