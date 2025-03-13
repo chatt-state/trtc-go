@@ -1,6 +1,8 @@
 module github.com/chatt-state/trtc-go
 
-go 1.24
+go 1.23.0
+
+toolchain go1.24.0
 
 require (
 	fyne.io/fyne/v2 v2.5.5
