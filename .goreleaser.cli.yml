@@ -1,0 +1,64 @@
+version: 2
+
+project_name: trtc-go
+
+before:
+  hooks:
+    - go mod tidy
+
+# Add timeout to the release section
+release:
+  github:
+    owner: chatt-state
+    name: trtc-go
+  prerelease: auto
+  draft: false
+  name_template: "{{ .ProjectName }} v{{ .Version }}"
+
+builds:
+  # CLI builds only (no GUI, no OpenGL dependencies)
+  - id: trtc-go-cli
+    main: ./cmd/cli
+    binary: trtc-go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w -X main.Version={{.Version}}
+    flags:
+      - -trimpath
+
+# Use faster compression
+archives:
+  - id: trtc-go-cli-archives
+    name_template: "{{ .ProjectName }}-CLI_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+    format: zip
+    format_overrides:
+      - goos: linux
+        format: tar.gz
+        
+# Skip unnecessary steps for faster builds
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  algorithm: sha256
+
+# Optimize changelog generation
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - Merge pull request
+      - Merge branch 
