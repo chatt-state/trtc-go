@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-## [0.0.1] - 2025-03-13
+## [0.0.1] - 2024-03-13
 
 ### Added
 - Initial release of TRTC-Go with CLI and GUI interfaces
@@ -28,5 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pre-commit hooks to ensure code quality and test validation
 
 ### Changed
+- Updated GoReleaser configuration to use changelog as release notes
+- Replaced native file dialog with zenity for improved cross-platform support
 
 ### Fixed 
+- Corrected format string in Logger.Info call to use proper formatting
+- Fixed build tag format in native dialog implementation files

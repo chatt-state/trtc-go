@@ -88,6 +88,7 @@ changelog:
       - '^ci:'
       - Merge pull request
       - Merge branch
+  use: github-native
 
 release:
   github:
@@ -95,4 +96,11 @@ release:
     name: trtc-go
   prerelease: auto
   draft: false
-  name_template: "{{ .ProjectName }} v{{ .Version }}" 
+  name_template: "{{ .ProjectName }} v{{ .Version }}"
+  use_changelog_body: true
+  footer: |
+    ## Installation
+
+    Download the appropriate package for your operating system and architecture from the assets below.
+
+    For more information, see the [README.md](https://github.com/chatt-state/trtc-go/blob/main/README.md). 
