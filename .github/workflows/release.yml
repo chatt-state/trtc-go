@@ -113,13 +113,19 @@ jobs:
         run: |
           cd cmd/gui
           go mod tidy
-          fyne package -os darwin -icon ../../icon.png -appID "io.github.chatt-state.trtc-go" -name "TRTC-Go" -release -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}"
+          # First build the binary with version information
+          go build -o TRTC-Go-GUI -ldflags "-X github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}"
+          # Then package it with fyne
+          fyne package -os darwin -executable TRTC-Go-GUI -icon ../../icon.png -appID "io.github.chatt-state.trtc-go" -name "TRTC-Go" -release
           cd ../..
 
       # Create a zip file of the .app bundle
       - name: Package macOS App
         run: |
-          zip -r TRTC-Go.app.zip TRTC-Go.app
+          # The app bundle is created in the cmd/gui directory
+          cd cmd/gui
+          zip -r ../../TRTC-Go.app.zip TRTC-Go.app
+          cd ../..
 
       # Upload macOS build to the release
       - name: Upload macOS Build to Release
