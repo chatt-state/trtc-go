@@ -60,21 +60,72 @@ jobs:
         run: |
           fyne-cross windows -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
 
-      - name: Build GUI for macOS
-        run: |
-          fyne-cross darwin -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
-
       - name: Build GUI for Linux
         run: |
           fyne-cross linux -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
 
-      # Upload GUI builds to the release
+      # Upload GUI builds to the release (excluding macOS)
       - name: Upload GUI Builds to Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             fyne-cross/dist/windows-amd64/trtc-go-gui.exe
-            fyne-cross/dist/darwin-amd64/trtc-go-gui.app.zip
             fyne-cross/dist/linux-amd64/trtc-go-gui.tar.xz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # macOS build using native macOS GitHub runner
+  macos-build:
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
+          cache: true
+
+      # Extract version from tag
+      - name: Set Version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version: $VERSION"
+
+      # Install dependencies for GUI builds
+      - name: Install Dependencies
+        run: |
+          brew install gcc
+
+      # Install Fyne CLI
+      - name: Install Fyne CLI
+        run: |
+          go install fyne.io/fyne/v2/cmd/fyne@latest
+
+      # Build GUI natively on macOS
+      - name: Build GUI for macOS
+        run: |
+          cd cmd/gui
+          go mod tidy
+          fyne package -os darwin -icon ../../icon.png -appID "io.github.chatt-state.trtc-go" -name "TRTC-Go" -release -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}"
+          cd ../..
+
+      # Create a zip file of the .app bundle
+      - name: Package macOS App
+        run: |
+          zip -r TRTC-Go.app.zip TRTC-Go.app
+
+      # Upload macOS build to the release
+      - name: Upload macOS Build to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            TRTC-Go.app.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
