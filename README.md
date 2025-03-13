@@ -34,7 +34,7 @@ go build -o trtc-go-gui ./cmd/gui
 go build -tags=gles -o trtc-go-gui ./cmd/gui
 ```
 
-### Cross-Compilation with Fyne
+### Cross-Platform Compatibility
 
 This project uses [Fyne](https://fyne.io/) for its GUI, which has specific requirements for cross-compilation due to its CGO dependencies. For cross-platform compatibility, we use the `gles` build tag which enables software rendering.
 
