@@ -27,7 +27,6 @@ builds:
       - darwin
     goarch:
       - amd64
-      - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
     # Add build flags for optimization
@@ -44,7 +43,6 @@ builds:
       - darwin
     goarch:
       - amd64
-      - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
     # Add build flags for optimization
@@ -63,7 +61,6 @@ builds:
       - linux
     goarch:
       - amd64
-      - arm64
     flags:
       - -tags=gles
       - -trimpath
