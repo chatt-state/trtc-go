@@ -1,6 +1,6 @@
 module github.com/chscc/trtc-go
 
-go 1.24.0
+go 1.24
 
 require (
 	fyne.io/fyne/v2 v2.5.4
