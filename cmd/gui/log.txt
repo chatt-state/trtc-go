@@ -22,3 +22,4 @@ INFO: 2025/03/13 12:10:34 Adding file: /Users/asachs/Downloads/sp25_rts_student_
 INFO: 2025/03/13 12:10:34 Sending request to https://rts.tnreversetransfer.org/api/Upload
 INFO: 2025/03/13 12:10:39 Response: 200 200 OK
 INFO: 2025/03/13 12:10:39 Upload successful
+INFO: 2025/03/13 12:24:42 Logger initialized at 2025-03-13T12:24:42-04:00

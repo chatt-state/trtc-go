@@ -13,6 +13,7 @@ SUMMARY.md
 /cmd/gui/dist/
 /dist/
 /fyne-cross/
+log.txt
 
 # GoReleaser
 /.goreleaser.yaml.bak
