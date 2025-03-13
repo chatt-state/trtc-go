@@ -44,6 +44,14 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Version: $VERSION"
 
+      # Create source code archives
+      - name: Create Source Code Archives
+        run: |
+          # Create a zip archive of the source code
+          git archive --format=zip --output=trtc-go-src_${{ env.VERSION }}.zip HEAD
+          # Create a tar.gz archive of the source code
+          git archive --format=tar.gz --output=trtc-go-src_${{ env.VERSION }}.tar.gz HEAD
+
       # Build CLI with GoReleaser (no CGO needed)
       - name: Build CLI with GoReleaser
         uses: goreleaser/goreleaser-action@v4
@@ -58,19 +66,25 @@ jobs:
       # fyne-cross automatically sets the appropriate environment for each platform
       - name: Build GUI for Windows
         run: |
-          fyne-cross windows -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          fyne-cross windows -arch=amd64 -output TRTC -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          # Rename the output file to match our naming convention
+          mv fyne-cross/dist/windows-amd64/TRTC.zip fyne-cross/dist/windows-amd64/trtc-go-gui_${{ env.VERSION }}_windows_amd64.zip
 
       - name: Build GUI for Linux
         run: |
-          fyne-cross linux -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          fyne-cross linux -arch=amd64 -output TRTC -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          # Rename the output file to match our naming convention
+          mv fyne-cross/dist/linux-amd64/TRTC.tar.xz fyne-cross/dist/linux-amd64/trtc-go-gui_${{ env.VERSION }}_linux_amd64.tar.xz
 
       # Upload GUI builds to the release (excluding macOS)
       - name: Upload GUI Builds to Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            fyne-cross/dist/windows-amd64/trtc-go-gui.exe
-            fyne-cross/dist/linux-amd64/trtc-go-gui.tar.xz
+            fyne-cross/dist/windows-amd64/trtc-go-gui_${{ env.VERSION }}_windows_amd64.zip
+            fyne-cross/dist/linux-amd64/trtc-go-gui_${{ env.VERSION }}_linux_amd64.tar.xz
+            trtc-go-src_${{ env.VERSION }}.zip
+            trtc-go-src_${{ env.VERSION }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -114,9 +128,9 @@ jobs:
           cd cmd/gui
           go mod tidy
           # First build the binary with version information
-          go build -o TRTC-Go-GUI -ldflags "-X github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}"
+          go build -o trtc-go-gui -ldflags "-X github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}"
           # Then package it with fyne
-          fyne package -os darwin -executable TRTC-Go-GUI -icon ../../icon.png -appID "io.github.chatt-state.trtc-go" -name "TRTC-Go" -release
+          fyne package -os darwin -executable trtc-go-gui -icon ../../icon.png -appID "io.github.chatt-state.trtc-go" -name "TRTC" -release
           cd ../..
 
       # Create a zip file of the .app bundle
@@ -124,7 +138,8 @@ jobs:
         run: |
           # The app bundle is created in the cmd/gui directory
           cd cmd/gui
-          zip -r ../../TRTC-Go.app.zip TRTC-Go.app
+          VERSION=${{ env.VERSION }}
+          zip -r ../../trtc-go-gui_${VERSION}_darwin_amd64.zip TRTC.app
           cd ../..
 
       # Upload macOS build to the release
@@ -132,6 +147,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            TRTC-Go.app.zip
+            trtc-go-gui_${{ env.VERSION }}_darwin_amd64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

@@ -36,7 +36,7 @@ builds:
 # Use faster compression
 archives:
   - id: trtc-go-cli-archives
-    name_template: "{{ .ProjectName }}-CLI_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "trtc-go-cli_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     files:
       - README.md
       - LICENSE
@@ -48,7 +48,7 @@ archives:
         
 # Skip unnecessary steps for faster builds
 checksum:
-  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  name_template: "trtc-go_{{ .Version }}_checksums.txt"
   algorithm: sha256
 
 # Optimize changelog generation
