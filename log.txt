@@ -1,0 +1,245 @@
+INFO: 2025/03/12 13:58:19 Logger initialized at 2025-03-12T13:58:19-04:00
+INFO: 2025/03/12 15:00:33 Uploading files to https://rts.tnreversetransfer.org/api/
+INFO: 2025/03/12 15:00:33 Adding file: /Users/asachs/Downloads/SP25 RTS Student Course History.csv (type: studentcourses)
+INFO: 2025/03/12 15:00:33 Sending request to https://rts.tnreversetransfer.org/api/
+INFO: 2025/03/12 15:00:38 Response: 404 404 Not Found
+ERROR: 2025/03/12 15:00:38 Upload failed: 
+
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Page not Found - Reverse Transfer System</title>
+
+	<script type="text/javascript">
+		// This script is to support Windows Phone 8 and Windows 8 Snapmode.
+		// It is in the head because it needs to be before the other CSS and JS.
+		if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			var msViewportStyle = document.createElement("style");
+			msViewportStyle.appendChild(document.createTextNode("@-ms-viewport{width:auto!important}"));
+			document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+		}
+	</script>
+
+	<link href="/Content/site-bundle?v=UdV19XqDWvNqAEs5JhIdFhGvC0ciz7W6Fel9J3FvGbY1" rel="stylesheet"/>
+
+	
+
+	<script src="/Scripts/modernizr.min.js"></script>
+
+	
+
+
+</head>
+<body>
+	<a href="#main-content" class="offscreen" tabindex="0" id="skipToContent">Skip to Content</a>
+
+
+	<div id="navigation" class="navbar navbar-default navbar-static-top hidden-print">
+		<div class="container">
+			<div class="navbar-header navbar-right">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1 class="navbar-brand">
+					<img src="/Content/images/TNlogos.png" alt="Reverse Transfer System" title="Reverse Transfer System" />
+				</h1>
+			</div>
+			
+
+
+	<nav class="navbar-collapse collapse" role="navigation">
+			<ul class="nav navbar-nav app-top-menu">
+
+
+			<li>
+				<a href="/Account/Login">Sign In</a>
+			</li>
+	</ul>
+
+	</nav>
+
+
+		</div>
+	</div>
+	
+	
+
+<nav role="navigation" aria-label="breadcrumbs" class="site-breadcrumbs container" id="breadcrumbs" data-spy="" data-offset-top="133">
+	<ol class="breadcrumb">
+
+			<li>
+					<a href="/" class="">Reverse Transfer System</a>
+			</li>
+			<li>
+Page not Found			</li>
+	</ol>
+
+
+</nav>
+	
+	<div id="main-content" role="main" tabindex="-1" class="container body-content">
+		
+
+
+<div class="alert alert-warning" style="margin-top: 2em;">
+	<span>Not Found</span>
+	
+	<div>
+		The page you requested could not be found
+	</div>
+</div>
+
+	</div>
+
+
+
+
+	<script src="/bundles/jquery-bundle?v=ZAz3P5sgjr8CuM7eeX7plXMSq6eS4tjF4O4DwphE3ow1"></script>
+
+	<script src="/bundles/bootstrap-bundle?v=Jx8l03V-P21TuGtkl29Mwr-Y0jz3wDR6RuTIiH9QJ5Q1"></script>
+
+	
+	
+
+
+</body>
+</html>
+INFO: 2025/03/12 15:55:20 Logger initialized at 2025-03-12T15:55:20-04:00
+INFO: 2025/03/12 15:56:03 Logger initialized at 2025-03-12T15:56:03-04:00
+INFO: 2025/03/12 15:56:03 Uploading files to https://rts.tnreversetransfer.org/api/
+INFO: 2025/03/12 15:56:03 Uploading files to https://rts.tnreversetransfer.org/api/
+INFO: 2025/03/12 15:56:03 Adding file: /Users/asachs/work/wyre/customers/chscc/projects/trtc-go/sp25_rts_student_course_history.csv (type: courses)
+INFO: 2025/03/12 15:56:03 Sending request to https://rts.tnreversetransfer.org/api/
+INFO: 2025/03/12 15:56:06 Response: 404 404 Not Found
+ERROR: 2025/03/12 15:56:06 Upload failed: 
+
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Page not Found - Reverse Transfer System</title>
+
+	<script type="text/javascript">
+		// This script is to support Windows Phone 8 and Windows 8 Snapmode.
+		// It is in the head because it needs to be before the other CSS and JS.
+		if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			var msViewportStyle = document.createElement("style");
+			msViewportStyle.appendChild(document.createTextNode("@-ms-viewport{width:auto!important}"));
+			document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+		}
+	</script>
+
+	<link href="/Content/site-bundle?v=UdV19XqDWvNqAEs5JhIdFhGvC0ciz7W6Fel9J3FvGbY1" rel="stylesheet"/>
+
+	
+
+	<script src="/Scripts/modernizr.min.js"></script>
+
+	
+
+
+</head>
+<body>
+	<a href="#main-content" class="offscreen" tabindex="0" id="skipToContent">Skip to Content</a>
+
+
+	<div id="navigation" class="navbar navbar-default navbar-static-top hidden-print">
+		<div class="container">
+			<div class="navbar-header navbar-right">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1 class="navbar-brand">
+					<img src="/Content/images/TNlogos.png" alt="Reverse Transfer System" title="Reverse Transfer System" />
+				</h1>
+			</div>
+			
+
+
+	<nav class="navbar-collapse collapse" role="navigation">
+			<ul class="nav navbar-nav app-top-menu">
+
+
+			<li>
+				<a href="/Account/Login">Sign In</a>
+			</li>
+	</ul>
+
+	</nav>
+
+
+		</div>
+	</div>
+	
+	
+
+<nav role="navigation" aria-label="breadcrumbs" class="site-breadcrumbs container" id="breadcrumbs" data-spy="" data-offset-top="133">
+	<ol class="breadcrumb">
+
+			<li>
+					<a href="/" class="">Reverse Transfer System</a>
+			</li>
+			<li>
+Page not Found			</li>
+	</ol>
+
+
+</nav>
+	
+	<div id="main-content" role="main" tabindex="-1" class="container body-content">
+		
+
+
+<div class="alert alert-warning" style="margin-top: 2em;">
+	<span>Not Found</span>
+	
+	<div>
+		The page you requested could not be found
+	</div>
+</div>
+
+	</div>
+
+
+
+
+	<script src="/bundles/jquery-bundle?v=ZAz3P5sgjr8CuM7eeX7plXMSq6eS4tjF4O4DwphE3ow1"></script>
+
+	<script src="/bundles/bootstrap-bundle?v=Jx8l03V-P21TuGtkl29Mwr-Y0jz3wDR6RuTIiH9QJ5Q1"></script>
+
+	
+	
+
+
+</body>
+</html>
+INFO: 2025/03/12 16:00:53 Logger initialized at 2025-03-12T16:00:53-04:00
+INFO: 2025/03/12 16:00:53 API endpoint set to https://rts.tnreversetransfer.org/api/Upload
+INFO: 2025/03/12 16:02:52 Logger initialized at 2025-03-12T16:02:52-04:00
+INFO: 2025/03/12 16:03:19 Logger initialized at 2025-03-12T16:03:19-04:00
+INFO: 2025/03/12 16:04:01 Uploading files to https://rts.tnreversetransfer.org/api/Upload
+INFO: 2025/03/12 16:04:01 Adding file: /Users/asachs/Downloads/sp25_rts_student_course_history.csv (type: studentcourses)
+INFO: 2025/03/12 16:04:01 Sending request to https://rts.tnreversetransfer.org/api/Upload
+INFO: 2025/03/12 16:04:07 Response: 200 200 OK
+INFO: 2025/03/12 16:04:07 Upload successful
+INFO: 2025/03/12 17:31:54 Logger initialized at 2025-03-12T17:31:54-04:00
+INFO: 2025/03/13 08:24:25 Logger initialized at 2025-03-13T08:24:25-04:00
+INFO: 2025/03/13 08:31:22 Logger initialized at 2025-03-13T08:31:22-04:00
+INFO: 2025/03/13 08:38:22 Logger initialized at 2025-03-13T08:38:22-04:00
+INFO: 2025/03/13 08:49:03 Logger initialized at 2025-03-13T08:49:03-04:00
+INFO: 2025/03/13 08:49:57 Logger initialized at 2025-03-13T08:49:57-04:00
+INFO: 2025/03/13 08:51:06 Logger initialized at 2025-03-13T08:51:06-04:00
+INFO: 2025/03/13 08:54:02 Logger initialized at 2025-03-13T08:54:02-04:00
+INFO: 2025/03/13 08:56:20 Logger initialized at 2025-03-13T08:56:20-04:00
+INFO: 2025/03/13 08:57:41 Logger initialized at 2025-03-13T08:57:41-04:00
+INFO: 2025/03/13 08:58:01 Logger initialized at 2025-03-13T08:58:01-04:00
+INFO: 2025/03/13 09:01:04 Logger initialized at 2025-03-13T09:01:04-04:00
+INFO: 2025/03/13 09:03:28 Logger initialized at 2025-03-13T09:03:28-04:00
+INFO: 2025/03/13 09:03:56 Logger initialized at 2025-03-13T09:03:56-04:00

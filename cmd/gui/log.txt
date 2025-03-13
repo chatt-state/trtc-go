@@ -1,0 +1,18 @@
+INFO: 2025/03/13 09:04:20 Logger initialized at 2025-03-13T09:04:20-04:00
+INFO: 2025/03/13 09:06:13 Logger initialized at 2025-03-13T09:06:13-04:00
+INFO: 2025/03/13 09:06:19 Zenity file dialog failed, falling back to Fyne dialog
+INFO: 2025/03/13 09:06:22 Zenity file dialog failed, falling back to Fyne dialog
+INFO: 2025/03/13 09:06:24 Zenity file dialog failed, falling back to Fyne dialog
+INFO: 2025/03/13 09:06:34 Zenity file dialog failed, falling back to Fyne dialog
+INFO: 2025/03/13 09:07:13 Logger initialized at 2025-03-13T09:07:13-04:00
+INFO: 2025/03/13 09:08:32 Logger initialized at 2025-03-13T09:08:32-04:00
+INFO: 2025/03/13 09:08:40 Logger initialized at 2025-03-13T09:08:40-04:00
+INFO: 2025/03/13 09:10:02 Logger initialized at 2025-03-13T09:10:02-04:00
+INFO: 2025/03/13 09:12:01 Logger initialized at 2025-03-13T09:12:01-04:00
+INFO: 2025/03/13 09:12:06 Zenity file dialog failed with error: dialog canceled
+INFO: 2025/03/13 09:57:10 Logger initialized at 2025-03-13T09:57:10-04:00
+INFO: 2025/03/13 09:57:16 Zenity file dialog was cancelled by user
+INFO: 2025/03/13 10:00:11 Logger initialized at 2025-03-13T10:00:11-04:00
+INFO: 2025/03/13 10:00:18 Zenity file dialog was cancelled by user
+INFO: 2025/03/13 10:02:20 Logger initialized at 2025-03-13T10:02:20-04:00
+INFO: 2025/03/13 10:02:32 Zenity file dialog was cancelled by user

@@ -1,0 +1,28 @@
+decompiled_html_form
+sp25_rts_student_course_history.csv
+trtc_upload_config.xml
+trtc-go*
+trtc_help.txt
+SUMMARY.md
+
+# Build artifacts
+/trtc-go
+/trtc-go-gui
+/cmd/gui/trtc-gui
+/cmd/gui/trtc-gui.exe
+/cmd/gui/dist/
+/dist/
+
+# GoReleaser
+/.goreleaser.yaml.bak
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Log files
+*.log
