@@ -252,3 +252,5 @@ INFO: 2025/03/13 12:08:17 Adding file: /Users/asachs/Downloads/sp25_rts_student_
 INFO: 2025/03/13 12:08:17 Sending request to https://rts.tnreversetransfer.org/api/Upload
 INFO: 2025/03/13 12:08:19 Response: 200 200 OK
 INFO: 2025/03/13 12:08:19 Upload successful
+INFO: 2025/03/13 12:19:00 Logger initialized at 2025-03-13T12:19:00-04:00
+INFO: 2025/03/13 12:19:10 Zenity file dialog was cancelled by user
