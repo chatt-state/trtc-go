@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  goreleaser:
-    runs-on: macos-latest  # Run on macOS for consistent builds
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,16 +23,58 @@ jobs:
           go-version: '1.24'
           cache: true
 
-      - name: Install dependencies
+      # Install dependencies for GUI builds
+      - name: Install Dependencies
         run: |
-          brew update
-          brew install gcc
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-dev xorg-dev gcc pkg-config
 
-      - name: Run GoReleaser
+      # Install fyne-cross for proper cross-compilation
+      - name: Install fyne-cross
+        run: |
+          go install github.com/fyne-io/fyne-cross@latest
+          echo "fyne-cross version:"
+          fyne-cross version
+
+      # Extract version from tag
+      - name: Set Version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version: $VERSION"
+
+      # Build CLI with GoReleaser (no CGO needed)
+      - name: Build CLI with GoReleaser
         uses: goreleaser/goreleaser-action@v4
         with:
           distribution: goreleaser
           version: latest
-          args: release --clean --timeout 30m
+          args: release --clean --timeout 30m --config .goreleaser.cli.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build GUI for each platform using fyne-cross
+      # fyne-cross automatically sets the appropriate environment for each platform
+      - name: Build GUI for Windows
+        run: |
+          fyne-cross windows -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X main.Version=${{ env.VERSION }}" ./cmd/gui
+
+      - name: Build GUI for macOS
+        run: |
+          fyne-cross darwin -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X main.Version=${{ env.VERSION }}" ./cmd/gui
+
+      - name: Build GUI for Linux
+        run: |
+          fyne-cross linux -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X main.Version=${{ env.VERSION }}" ./cmd/gui
+
+      # Upload GUI builds to the release
+      - name: Upload GUI Builds to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            fyne-cross/dist/windows-amd64/trtc-go-gui.exe
+            fyne-cross/dist/darwin-amd64/trtc-go-gui.app.zip
+            fyne-cross/dist/linux-amd64/trtc-go-gui.tar.xz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
