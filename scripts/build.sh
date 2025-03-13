@@ -1,17 +1,21 @@
 #!/bin/bash
 # Build script for TRTC-Go GUI application
 
+# Set version (use git tag if available, otherwise use "dev")
+VERSION=$(git describe --tags 2>/dev/null || echo "dev")
+echo "Building version: $VERSION"
+
 # Ensure icon is available
 cp ../../icon.png .
 
 # Build for current platform
 echo "Building for current platform..."
-go build -o trtc-gui
+go build -o trtc-gui -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/gui.Version=$VERSION"
 
 # Cross-compile for Windows (if needed)
 if [ "$1" == "windows" ]; then
     echo "Cross-compiling for Windows..."
-    GOOS=windows GOARCH=amd64 go build -o trtc-gui.exe
+    GOOS=windows GOARCH=amd64 go build -o trtc-gui.exe -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/gui.Version=$VERSION"
     
     # Create a zip file for Windows distribution
     echo "Creating Windows distribution package..."
@@ -52,7 +56,7 @@ if [ "$(uname)" == "Darwin" ] && [ "$1" == "macos" ]; then
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.1.0</string>
+    <string>${VERSION}</string>
     <key>NSHighResolutionCapable</key>
     <true/>
 </dict>

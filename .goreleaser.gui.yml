@@ -16,12 +16,12 @@ release:
   name_template: "{{ .ProjectName }} v{{ .Version }}"
 
 builds:
-  # CLI builds only (no GUI, no OpenGL dependencies)
-  - id: trtc-go-cli
-    main: ./cmd/cli
-    binary: trtc-go
+  # GUI builds with CGO enabled
+  - id: trtc-go-gui
+    main: ./cmd/gui
+    binary: trtc-go-gui
     env:
-      - CGO_ENABLED=0
+      - CGO_ENABLED=1
     goos:
       - linux
       - windows
@@ -29,14 +29,14 @@ builds:
     goarch:
       - amd64
     ldflags:
-      - -s -w -X github.com/chatt-state/trtc-go/cmd/cli.Version={{.Version}}
+      - -s -w -X github.com/chatt-state/trtc-go/cmd/gui.Version={{.Version}}
     flags:
       - -trimpath
 
 # Use faster compression
 archives:
-  - id: trtc-go-cli-archives
-    name_template: "{{ .ProjectName }}-CLI_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - id: trtc-go-gui-archives
+    name_template: "{{ .ProjectName }}-GUI_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     files:
       - README.md
       - LICENSE

@@ -75,12 +75,12 @@ jobs:
       # Build CLI
       - name: Build CLI
         shell: powershell
-        run: go build -v -trimpath -ldflags="-s -w" ./cmd/cli
+        run: go build -v -trimpath -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/cli.Version=dev" ./cmd/cli
 
       # Build GUI with GLES tag
       - name: Build GUI
         shell: powershell
-        run: go build -v -trimpath -ldflags="-s -w" -tags=gles ./cmd/gui
+        run: go build -v -trimpath -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/gui.Version=dev" -tags=gles ./cmd/gui
 
       # Run tests with optimizations
       - name: Test

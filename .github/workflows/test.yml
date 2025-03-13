@@ -63,17 +63,17 @@ jobs:
 
       # Use build caching
       - name: Build CLI
-        run: go build -v -trimpath -ldflags="-s -w" ./cmd/cli
+        run: go build -v -trimpath -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/cli.Version=dev" ./cmd/cli
 
       # Add build tags for GUI to avoid OpenGL issues
       - name: Build GUI (macOS)
         if: matrix.os == 'macos-latest'
-        run: go build -v -trimpath -ldflags="-s -w" -tags=darwin ./cmd/gui
+        run: go build -v -trimpath -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/gui.Version=dev" -tags=darwin ./cmd/gui
 
       # Build GUI for Linux
       - name: Build GUI (Linux)
         if: matrix.os == 'ubuntu-latest'
-        run: go build -v -trimpath -ldflags="-s -w" -tags=gles ./cmd/gui
+        run: go build -v -trimpath -ldflags="-s -w -X github.com/chatt-state/trtc-go/cmd/gui.Version=dev" -tags=gles ./cmd/gui
 
       # Run tests with race detection disabled for speed
       - name: Test
