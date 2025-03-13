@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [0.0.1] - 2025-03-13
+
+### Added
 - Initial release of TRTC-Go with CLI and GUI interfaces
 - Support for uploading Courses, Equivalencies, Students, and Student Courses files
 - Custom Tennessee theme for the GUI
