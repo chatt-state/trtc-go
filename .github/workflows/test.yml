@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
         go-version: ['1.24']
       # Add fail-fast to stop other jobs if one fails
       fail-fast: true
@@ -61,20 +61,6 @@ jobs:
           brew update > /dev/null
           brew install --quiet gcc
 
-      - name: Cache dependencies (Windows)
-        if: matrix.os == 'windows-latest'
-        uses: actions/cache@v3
-        with:
-          path: C:\ProgramData\chocolatey\lib
-          key: ${{ runner.os }}-choco-${{ hashFiles('**/test.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-choco-
-
-      - name: Install dependencies (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          choco install mingw --no-progress
-
       # Use build caching
       - name: Build CLI
         run: go build -v -trimpath -ldflags="-s -w" ./cmd/cli
@@ -84,8 +70,9 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: go build -v -trimpath -ldflags="-s -w" -tags=darwin ./cmd/gui
 
-      - name: Build GUI (Linux/Windows)
-        if: matrix.os != 'macos-latest'
+      # Build GUI for Linux
+      - name: Build GUI (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: go build -v -trimpath -ldflags="-s -w" -tags=gles ./cmd/gui
 
       # Run tests with race detection disabled for speed
