@@ -2,12 +2,18 @@ version: 2
 
 project_name: trtc-go
 
-# Add timeout to prevent hanging builds
-timeout: 30m
-
 before:
   hooks:
     - go mod tidy
+
+# Add timeout to the release section
+release:
+  github:
+    owner: chatt-state
+    name: trtc-go
+  prerelease: auto
+  draft: false
+  name_template: "{{ .ProjectName }} v{{ .Version }}"
 
 builds:
   - id: trtc-go-cli
@@ -97,12 +103,4 @@ changelog:
       - '^ci:'
       - Merge pull request
       - Merge branch
-
-release:
-  github:
-    owner: chatt-state
-    name: trtc-go
-  prerelease: auto
-  draft: false
-  name_template: "{{ .ProjectName }} v{{ .Version }}"
 
