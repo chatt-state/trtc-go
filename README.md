@@ -9,7 +9,7 @@ TRTC-Go is a modern, user-friendly tool for uploading files to the Tennessee Rev
 - Simple, intuitive graphical interface
 - Powerful command-line interface for automation
 - Detailed logging and error reporting
-- Cross-platform support
+- Cross-platform support (Windows, macOS, Linux)
 
 ## Installation
 
@@ -27,8 +27,22 @@ cd trtc-go
 # Build the CLI
 go build -o trtc-go ./cmd/cli
 
-# Build the GUI
+# Build the GUI (macOS with full features)
 go build -o trtc-go-gui ./cmd/gui
+
+# Build the GUI (Windows/Linux or cross-platform)
+go build -tags=gles -o trtc-go-gui ./cmd/gui
+```
+
+### Cross-Compilation with Fyne
+
+This project uses [Fyne](https://fyne.io/) for its GUI, which has specific requirements for cross-compilation due to its CGO dependencies. For cross-platform compatibility, we use the `gles` build tag which enables software rendering.
+
+For Windows and Linux builds, we use the `-tags=gles` flag to ensure compatibility:
+
+```bash
+# Build for Windows/Linux with software rendering
+go build -tags=gles -o trtc-go-gui ./cmd/gui
 ```
 
 ### Building with Build Scripts

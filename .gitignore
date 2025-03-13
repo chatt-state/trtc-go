@@ -12,9 +12,18 @@ SUMMARY.md
 /cmd/gui/trtc-gui.exe
 /cmd/gui/dist/
 /dist/
+/fyne-cross/
 
 # GoReleaser
 /.goreleaser.yaml.bak
+
+# IDE settings
+# Uncomment if you want to exclude VS Code settings
+# .vscode/
+
+# Linter configuration
+# Uncomment if you want to exclude linter configuration
+# .golangci.yml
 
 # macOS
 .DS_Store

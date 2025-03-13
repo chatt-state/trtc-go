@@ -1,20 +1,17 @@
-//go:build nosoftwaregl
-// +build nosoftwaregl
+//go:build gles
+// +build gles
 
 package main
 
 import (
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/theme"
+	"os"
 )
 
-// This file is included only when building with the nosoftwaregl tag.
+// This file is included only when building with the gles tag.
 // It provides a way to build the GUI application without OpenGL dependencies
 // for cross-compilation purposes.
 
 func init() {
-	// Set the environment variable to disable hardware acceleration
-	// This allows the application to run without OpenGL
-	fyne.SetCurrentApp(fyne.CurrentApp())
-	fyne.CurrentApp().Settings().SetTheme(theme.DefaultTheme())
+	// Force software rendering for cross-platform compatibility
+	os.Setenv("FYNE_RENDERER", "software")
 }

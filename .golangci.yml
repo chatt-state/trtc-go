@@ -1,0 +1,9 @@
+run:
+  build-tags:
+    - gles
+  timeout: 5m
+  skip-dirs:
+    - github.com/go-gl/gl
+    - github.com/go-gl/glfw
+  skip-files:
+    - ".*_test\\.go$" 

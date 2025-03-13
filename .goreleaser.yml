@@ -5,6 +5,18 @@ project_name: trtc-go
 before:
   hooks:
     - go mod tidy
+    # Install fyne-cross for proper cross-compilation in GitHub Actions
+    - go install github.com/fyne-io/fyne-cross@latest
+    # Make sure Docker is running and pull the fyne-cross image
+    - docker pull fyneio/fyne-cross:latest
+    # Create a directory for cross-compiled binaries
+    - mkdir -p dist/fyne-cross
+    # Build for Windows using fyne-cross with GLES tag
+    - fyne-cross windows -arch=amd64,arm64 -output trtc-go-gui -app-id com.chattstate.trtc-go -app-version {{.Version}} -ldflags="-s -w -X main.Version={{.Version}}" -tags=gles ./cmd/gui
+    # Build for Linux using fyne-cross with GLES tag
+    - fyne-cross linux -arch=amd64,arm64 -output trtc-go-gui -app-id com.chattstate.trtc-go -app-version {{.Version}} -ldflags="-s -w -X main.Version={{.Version}}" -tags=gles ./cmd/gui
+    # Copy the cross-compiled binaries to the dist directory for goreleaser to include in the release
+    - cp -r fyne-cross/bin/* dist/
 
 builds:
   - id: trtc-go-cli
@@ -22,49 +34,36 @@ builds:
     ldflags:
       - -s -w -X main.Version={{.Version}}
 
-  - id: trtc-go-gui
+  # Build GUI only for macOS natively with CGO enabled
+  - id: trtc-go-gui-darwin
     main: ./cmd/gui
     binary: trtc-go-gui
     env:
       - CGO_ENABLED=1
     goos:
-      - darwin  # Only build for macOS with CGO enabled
+      - darwin
     goarch:
       - amd64
       - arm64
     ldflags:
       - -s -w -X main.Version={{.Version}}
-
-  # Add separate builds for Windows and Linux with CGO disabled for the GUI
-  - id: trtc-go-gui-windows
+      
+  # Build GUI for Windows and Linux with GLES tag
+  - id: trtc-go-gui-windows-linux
     main: ./cmd/gui
     binary: trtc-go-gui
     env:
       - CGO_ENABLED=0
     goos:
       - windows
-    goarch:
-      - amd64
-      - arm64
-    ldflags:
-      - -s -w -X main.Version={{.Version}}
-    tags:
-      - nosoftwaregl
-
-  - id: trtc-go-gui-linux
-    main: ./cmd/gui
-    binary: trtc-go-gui
-    env:
-      - CGO_ENABLED=0
-    goos:
       - linux
     goarch:
       - amd64
       - arm64
+    flags:
+      - -tags=gles
     ldflags:
       - -s -w -X main.Version={{.Version}}
-    tags:
-      - nosoftwaregl
 
 archives:
   - id: trtc-go-archives
@@ -73,6 +72,7 @@ archives:
       - README.md
       - LICENSE
       - CHANGELOG.md
+      - dist/fyne-cross/**/*  # Include the cross-compiled binaries
     formats:
       - tar.gz
     format_overrides:
@@ -99,4 +99,5 @@ release:
     name: trtc-go
   prerelease: auto
   draft: false
-  name_template: "{{ .ProjectName }} v{{ .Version }}" 
+  name_template: "{{ .ProjectName }} v{{ .Version }}"
+
