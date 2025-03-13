@@ -26,9 +26,34 @@ builds:
     env:
       - CGO_ENABLED=1
     goos:
-      - linux
+      - darwin  # Only build for macOS with CGO enabled
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.Version={{.Version}}
+
+  # Add separate builds for Windows and Linux with CGO disabled for the GUI
+  - id: trtc-go-gui-windows
+    main: ./cmd/gui
+    binary: trtc-go-gui
+    env:
+      - CGO_ENABLED=0
+    goos:
       - windows
-      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.Version={{.Version}}
+
+  - id: trtc-go-gui-linux
+    main: ./cmd/gui
+    binary: trtc-go-gui
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
     goarch:
       - amd64
       - arm64
@@ -37,10 +62,7 @@ builds:
 
 archives:
   - id: trtc-go-archives
-    builds:
-      - trtc-go-cli
-      - trtc-go-gui
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format: tar.gz
     format_overrides:
       - goos: windows
         format: zip
@@ -48,6 +70,7 @@ archives:
       - README.md
       - LICENSE
       - icon.png
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
   name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
