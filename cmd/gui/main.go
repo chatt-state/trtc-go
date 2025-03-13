@@ -20,7 +20,7 @@ import (
 
 var (
 	// Version is the version of the application
-	Version = "0.1.0"
+	Version = "0.0.1"
 
 	// Config is the application configuration
 	Config *config.Config

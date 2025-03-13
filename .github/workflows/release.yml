@@ -58,15 +58,15 @@ jobs:
       # fyne-cross automatically sets the appropriate environment for each platform
       - name: Build GUI for Windows
         run: |
-          fyne-cross windows -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          fyne-cross windows -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
 
       - name: Build GUI for macOS
         run: |
-          fyne-cross darwin -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          fyne-cross darwin -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
 
       - name: Build GUI for Linux
         run: |
-          fyne-cross linux -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
+          fyne-cross linux -arch=amd64 -output trtc-go-gui -app-id "io.github.chatt-state.trtc-go" -app-version ${{ env.VERSION }} -ldflags="-X=github.com/chatt-state/trtc-go/cmd/gui.Version=${{ env.VERSION }}" ./cmd/gui
 
       # Upload GUI builds to the release
       - name: Upload GUI Builds to Release
