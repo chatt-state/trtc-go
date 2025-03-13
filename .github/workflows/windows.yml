@@ -16,22 +16,43 @@ jobs:
         with:
           fetch-depth: 1
 
+      # Optimize cache extraction by using actions/cache directly
+      - name: Go Mod Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~\go\pkg\mod
+            ~\AppData\Local\go-build
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.24'
-          cache: true
-          cache-dependency-path: go.sum
+          # Disable built-in caching since we're using actions/cache directly
+          cache: false
 
       # Optimize Windows performance
       - name: Optimize Windows
         shell: powershell
         run: |
+          # Set up Go environment variables explicitly
+          $gopath = if ($env:GOPATH) { $env:GOPATH } else { Join-Path $env:USERPROFILE "go" }
+          $workspace = $env:GITHUB_WORKSPACE
+          
           # Disable Windows Defender for build directories
           if (Test-Path "C:\Program Files\Windows Defender\MpCmdRun.exe") {
             Write-Host "Disabling Windows Defender scanning for build directories"
-            Add-MpPreference -ExclusionPath $env:GOPATH
-            Add-MpPreference -ExclusionPath $env:GITHUB_WORKSPACE
+            if ($gopath) {
+              Write-Host "Adding exclusion for GOPATH: $gopath"
+              Add-MpPreference -ExclusionPath $gopath
+            }
+            if ($workspace) {
+              Write-Host "Adding exclusion for workspace: $workspace"
+              Add-MpPreference -ExclusionPath $workspace
+            }
           }
           
           # Set custom cache locations on faster drive
@@ -45,6 +66,11 @@ jobs:
           
           # Increase Go's parallelism
           $env:GOMAXPROCS = $env:NUMBER_OF_PROCESSORS
+
+      # Download dependencies explicitly (faster than tar extraction)
+      - name: Download Dependencies
+        shell: powershell
+        run: go mod download -x
 
       # Build CLI
       - name: Build CLI

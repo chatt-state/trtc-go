@@ -1,9 +1,15 @@
 run:
   build-tags:
     - gles
+    - darwin
+    - js
   timeout: 5m
   allow-parallel-runners: true
   go: '1.24'
+  # Skip problematic directories
+  skip-dirs:
+    - github.com/go-gl/gl/v3.1/gles2
+    - fyne.io/fyne/v2/internal/painter/gl
 
 linters:
   disable-all: true
@@ -28,5 +34,9 @@ issues:
       linters:
         - all
     - path: github.com/go-gl
+      linters:
+        - all
+    # Exclude GLES2 package issues
+    - path: github.com/go-gl/gl/v3.1/gles2
       linters:
         - all 

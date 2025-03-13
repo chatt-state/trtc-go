@@ -21,11 +21,16 @@ jobs:
           cache: true
           cache-dependency-path: go.sum
       
+      # Install dependencies first to avoid export data issues
+      - name: Install Dependencies
+        run: go mod download -x
+      
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-          args: --timeout=3m
+          # Explicitly use our config file and add build tags
+          args: --timeout=3m --config=.golangci.yml --build-tags=gles,darwin,js
           skip-cache: true
           # Only run on changed files for PRs
           only-new-issues: true 
