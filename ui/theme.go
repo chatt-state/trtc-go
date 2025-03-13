@@ -5,8 +5,58 @@ import (
 	"strings"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 )
+
+// ShowSuccessDialog shows a custom success dialog with white text on blue background
+func ShowSuccessDialog(title, message string, parent fyne.Window) {
+	// Tennessee colors
+	tennesseeBlue := color.NRGBA{R: 0, G: 40, B: 104, A: 255} // #002868
+	white := color.NRGBA{R: 255, G: 255, B: 255, A: 255}      // #FFFFFF
+
+	// Create title label with white text
+	titleLabel := canvas.NewText(title, white)
+	titleLabel.TextSize = theme.TextHeadingSize()
+	titleLabel.TextStyle = fyne.TextStyle{Bold: true}
+	titleLabel.Alignment = fyne.TextAlignCenter
+
+	// Create message label with white text
+	messageLabel := canvas.NewText(message, white)
+	messageLabel.TextSize = theme.TextSize()
+	messageLabel.Alignment = fyne.TextAlignCenter
+
+	// Create a blue background rectangle
+	background := canvas.NewRectangle(tennesseeBlue)
+
+	// Create a container with the background and text
+	content := container.NewStack(
+		background,
+		container.NewVBox(
+			container.NewPadded(titleLabel),
+			container.NewPadded(messageLabel),
+		),
+	)
+
+	// Create a button with white text
+	okButton := widget.NewButton("OK", nil)
+	okButton.Importance = widget.HighImportance
+
+	// Create the dialog
+	d := dialog.NewCustom(title, "OK", content, parent)
+	d.SetButtons([]fyne.CanvasObject{okButton})
+
+	// Set the button callback to close the dialog
+	okButton.OnTapped = func() {
+		d.Hide()
+	}
+
+	// Show the dialog
+	d.Show()
+}
 
 // TennesseeTheme is a custom theme with Tennessee-inspired colors
 type TennesseeTheme struct {
