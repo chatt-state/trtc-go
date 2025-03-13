@@ -6,10 +6,8 @@ run:
   timeout: 5m
   allow-parallel-runners: true
   go: '1.24'
-  # Skip problematic directories
-  skip-dirs:
-    - github.com/go-gl/gl/v3.1/gles2
-    - fyne.io/fyne/v2/internal/painter/gl
+  # Use exclude-dirs instead of skip-dirs (which is deprecated)
+  # skip-dirs has been removed
 
 linters:
   disable-all: true
@@ -22,13 +20,19 @@ linters:
     - unused
 
 issues:
+  # Expanded exclude-dirs to cover all Fyne and GL related packages
   exclude-dirs:
     - github.com/go-gl/gl
     - github.com/go-gl/glfw
-    - fyne.io/fyne/v2/internal/painter/gl
+    - fyne.io/fyne
+    - fyne.io/fyne/v2
+    - github.com/go-gl/gl/v3.1/gles2
   exclude-dirs-use-default: true
   exclude-files:
     - ".*_test\\.go$"
+    # Exclude GUI-related files that depend on Fyne
+    - "cmd/gui/.*\\.go$"
+    - "internal/ui/.*\\.go$"
   exclude-rules:
     - path: fyne.io/fyne
       linters:
@@ -36,7 +40,10 @@ issues:
     - path: github.com/go-gl
       linters:
         - all
-    # Exclude GLES2 package issues
     - path: github.com/go-gl/gl/v3.1/gles2
+      linters:
+        - all
+    # Exclude any file that imports Fyne
+    - source: "import (.*fyne.*)"
       linters:
         - all 

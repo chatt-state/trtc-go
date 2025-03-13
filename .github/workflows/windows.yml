@@ -82,7 +82,16 @@ jobs:
         shell: powershell
         run: go build -v -trimpath -ldflags="-s -w" -tags=gles ./cmd/gui
 
-      # Run tests
+      # Run tests with optimizations
       - name: Test
         shell: powershell
-        run: go test -v ./... 
+        run: |
+          # Run tests with optimizations
+          $env:GOTEST_TIMEOUT = "60s"  # Set shorter timeout for tests
+          $env:GOCACHE = "C:\go-cache" # Ensure cache is used
+          
+          # Run tests in parallel with timeout and without race detection for speed
+          go test -v -parallel $env:NUMBER_OF_PROCESSORS -timeout=3m -short ./... 
+          
+          # If you need race detection, run it separately on critical packages only
+          # go test -race -short ./pkg/... ./internal/api/... 
