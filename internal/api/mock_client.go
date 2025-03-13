@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/chscc/trtc-go/internal/models"
+	"github.com/chatt-state/trtc-go/internal/models"
 )
 
 // MockClient is a mock implementation of the API client for testing

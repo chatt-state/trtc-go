@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/chscc/trtc-go/internal/config"
-	"github.com/chscc/trtc-go/pkg/logger"
+	"github.com/chatt-state/trtc-go/internal/config"
+	"github.com/chatt-state/trtc-go/pkg/logger"
 	"github.com/spf13/cobra"
 )
 

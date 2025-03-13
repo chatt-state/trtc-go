@@ -5,10 +5,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/chscc/trtc-go/internal/api"
-	"github.com/chscc/trtc-go/internal/config"
-	"github.com/chscc/trtc-go/internal/models"
-	"github.com/chscc/trtc-go/pkg/logger"
+	"github.com/chatt-state/trtc-go/internal/api"
+	"github.com/chatt-state/trtc-go/internal/config"
+	"github.com/chatt-state/trtc-go/internal/models"
+	"github.com/chatt-state/trtc-go/pkg/logger"
 )
 
 // Uploader handles file uploads to the TRTC API

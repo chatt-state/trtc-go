@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chscc/trtc-go/internal/config"
+	"github.com/chatt-state/trtc-go/internal/config"
 	"github.com/spf13/cobra"
 )
 

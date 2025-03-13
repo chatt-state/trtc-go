@@ -1,4 +1,4 @@
-module github.com/chscc/trtc-go
+module github.com/chatt-state/trtc-go
 
 go 1.24
 

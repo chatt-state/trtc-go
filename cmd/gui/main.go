@@ -13,9 +13,9 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/ncruces/zenity"
 
-	"github.com/chscc/trtc-go/internal/config"
-	"github.com/chscc/trtc-go/pkg/logger"
-	"github.com/chscc/trtc-go/ui"
+	"github.com/chatt-state/trtc-go/internal/config"
+	"github.com/chatt-state/trtc-go/pkg/logger"
+	"github.com/chatt-state/trtc-go/ui"
 )
 
 var (

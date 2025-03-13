@@ -15,13 +15,13 @@ TRTC-Go is a modern, user-friendly tool for uploading files to the Tennessee Rev
 
 ### Binary Installation
 
-Download the latest release for your platform from the [Releases](https://github.com/chscc/trtc-go/releases) page.
+Download the latest release for your platform from the [Releases](https://github.com/chatt-state/trtc-go/releases) page.
 
 ### Building from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/chscc/trtc-go.git
+git clone https://github.com/chatt-state/trtc-go.git
 cd trtc-go
 
 # Build the CLI

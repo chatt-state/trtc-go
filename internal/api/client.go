@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/chscc/trtc-go/internal/models"
-	"github.com/chscc/trtc-go/pkg/logger"
+	"github.com/chatt-state/trtc-go/internal/models"
+	"github.com/chatt-state/trtc-go/pkg/logger"
 )
 
 // APIClient is an interface for the API client

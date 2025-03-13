@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/chscc/trtc-go/internal/uploader"
+	"github.com/chatt-state/trtc-go/internal/uploader"
 	"github.com/spf13/cobra"
 )
 

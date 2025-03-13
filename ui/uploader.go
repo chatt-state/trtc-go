@@ -1,10 +1,10 @@
 package ui
 
 import (
-	"github.com/chscc/trtc-go/internal/config"
-	"github.com/chscc/trtc-go/internal/models"
-	"github.com/chscc/trtc-go/internal/uploader"
-	"github.com/chscc/trtc-go/pkg/logger"
+	"github.com/chatt-state/trtc-go/internal/config"
+	"github.com/chatt-state/trtc-go/internal/models"
+	"github.com/chatt-state/trtc-go/internal/uploader"
+	"github.com/chatt-state/trtc-go/pkg/logger"
 )
 
 // Uploader is a wrapper around the uploader package for the UI
