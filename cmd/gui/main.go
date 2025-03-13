@@ -236,7 +236,7 @@ func selectFile(w fyne.Window, entry *widget.Entry, check *widget.Check) {
 
 	// Handle other errors with zenity
 	if err != nil {
-		Logger.Info("Zenity file dialog failed with error: " + err.Error())
+		Logger.Info("Zenity file dialog failed with error: %v", err)
 
 		// Fall back to Fyne's dialog only on actual errors
 		dialog.ShowFileOpen(func(uri fyne.URIReadCloser, err error) {

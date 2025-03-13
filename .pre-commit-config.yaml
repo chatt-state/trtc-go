@@ -14,18 +14,18 @@ repos:
 
   - repo: local
     hooks:
-      - id: go-test
-        name: go test
-        description: Run go tests
-        entry: bash -c 'go test -v ./...'
+      - id: go-build
+        name: go build
+        description: Check if the code builds
+        entry: bash -c 'go build ./...'
         language: system
         types: [go]
         pass_filenames: false
 
-      - id: go-build
-        name: go build
-        description: Check if the code builds
-        entry: bash -c 'go build -v ./cmd/cli && go build -v ./cmd/gui'
+      - id: go-test
+        name: go test
+        description: Run go tests
+        entry: bash -c 'go test ./...'
         language: system
         types: [go]
         pass_filenames: false 
