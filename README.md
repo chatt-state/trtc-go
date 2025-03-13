@@ -1,6 +1,6 @@
 # TRTC-Go
 
-TRTC-Go is a modern, user-friendly tool for uploading files to the Tennessee Reverse Transfer Consortium (TRTC) API. It provides both a command-line interface (CLI) and a graphical user interface (GUI) for ease of use.
+TRTC-Go is a modern, user-friendly tool for uploading files to the Tennessee Reverse Transfer (TRTC) API. It provides both a command-line interface (CLI) and a graphical user interface (GUI) for ease of use.
 
 ## Features
 
