@@ -1,0 +1,62 @@
+name: Windows Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  windows-build:
+    name: Windows Tests
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+          cache: true
+          cache-dependency-path: go.sum
+
+      # Optimize Windows performance
+      - name: Optimize Windows
+        shell: powershell
+        run: |
+          # Disable Windows Defender for build directories
+          if (Test-Path "C:\Program Files\Windows Defender\MpCmdRun.exe") {
+            Write-Host "Disabling Windows Defender scanning for build directories"
+            Add-MpPreference -ExclusionPath $env:GOPATH
+            Add-MpPreference -ExclusionPath $env:GITHUB_WORKSPACE
+          }
+          
+          # Set custom cache locations on faster drive
+          $env:GOCACHE = "C:\go-cache"
+          $env:GOMODCACHE = "C:\go-mod-cache"
+          New-Item -ItemType Directory -Force -Path $env:GOCACHE | Out-Null
+          New-Item -ItemType Directory -Force -Path $env:GOMODCACHE | Out-Null
+          
+          # Enable CGO for builds
+          $env:CGO_ENABLED = 1
+          
+          # Increase Go's parallelism
+          $env:GOMAXPROCS = $env:NUMBER_OF_PROCESSORS
+
+      # Build CLI
+      - name: Build CLI
+        shell: powershell
+        run: go build -v -trimpath -ldflags="-s -w" ./cmd/cli
+
+      # Build GUI with GLES tag
+      - name: Build GUI
+        shell: powershell
+        run: go build -v -trimpath -ldflags="-s -w" -tags=gles ./cmd/gui
+
+      # Run tests
+      - name: Test
+        shell: powershell
+        run: go test -v ./... 
