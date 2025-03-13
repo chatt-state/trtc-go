@@ -66,6 +66,54 @@ This project uses [GoReleaser](https://goreleaser.com/) to automate the release 
 
 2. GitHub Actions will automatically build and release the binaries for all platforms.
 
+### Development Setup
+
+This project uses pre-commit hooks to ensure code quality and that tests pass before commits. To set up the pre-commit hooks:
+
+#### Using Setup Scripts
+
+We provide setup scripts to make it easy to install the pre-commit hooks:
+
+**macOS/Linux:**
+```bash
+./scripts/setup-dev.sh
+```
+
+**Windows:**
+```batch
+scripts\setup-dev.bat
+```
+
+#### Manual Setup
+
+1. Install pre-commit:
+   ```bash
+   # Using pip
+   pip install pre-commit
+   
+   # Or using Homebrew on macOS
+   brew install pre-commit
+   ```
+
+2. Install the git hooks:
+   ```bash
+   pre-commit install
+   ```
+
+3. (Optional) Install golangci-lint:
+   ```bash
+   # macOS
+   brew install golangci-lint
+   
+   # Windows
+   choco install golangci-lint
+   
+   # Linux
+   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+   ```
+
+Now, every time you commit, the pre-commit hooks will run to ensure tests pass and code quality is maintained.
+
 ## Usage
 
 ### GUI
@@ -108,4 +156,4 @@ trtc-go config set --endpoint="https://your-api-endpoint.com"
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.

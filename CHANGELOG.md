@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cross-platform support (Windows, macOS, Linux)
 - Build scripts for easy compilation
 - GitHub Actions workflows for automated testing and releases
+- Pre-commit hooks to ensure code quality and test validation
 
 ### Changed
 
