@@ -44,6 +44,18 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Version: $VERSION"
 
+      # Extract release notes from CHANGELOG.md
+      - name: Extract Release Notes
+        id: extract_release_notes
+        run: |
+          # Extract the section for the current version from CHANGELOG.md
+          VERSION=${{ env.VERSION }}
+          # Use awk to extract the section between ## [$VERSION] and the next ## or end of file
+          RELEASE_NOTES=$(awk -v ver="$VERSION" 'BEGIN {section=0} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/ {if (section==1) {exit}; if ($0 ~ "\\[" ver "\\]") {section=1; print; next}} section==1 {print}' CHANGELOG.md)
+          # Save release notes to a file
+          echo "$RELEASE_NOTES" > release_notes.md
+          echo "Generated release notes from CHANGELOG.md for version $VERSION"
+
       # Create source code archives
       - name: Create Source Code Archives
         run: |
@@ -80,6 +92,7 @@ jobs:
       - name: Upload GUI Builds to Release
         uses: softprops/action-gh-release@v1
         with:
+          body_path: release_notes.md
           files: |
             fyne-cross/dist/windows-amd64/trtc-go-gui_${{ env.VERSION }}_windows_amd64.zip
             fyne-cross/dist/linux-amd64/trtc-go-gui_${{ env.VERSION }}_linux_amd64.tar.xz
@@ -111,6 +124,18 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Version: $VERSION"
+
+      # Extract release notes from CHANGELOG.md
+      - name: Extract Release Notes
+        id: extract_release_notes
+        run: |
+          # Extract the section for the current version from CHANGELOG.md
+          VERSION=${{ env.VERSION }}
+          # Use awk to extract the section between ## [$VERSION] and the next ## or end of file
+          RELEASE_NOTES=$(awk -v ver="$VERSION" 'BEGIN {section=0} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/ {if (section==1) {exit}; if ($0 ~ "\\[" ver "\\]") {section=1; print; next}} section==1 {print}' CHANGELOG.md)
+          # Save release notes to a file
+          echo "$RELEASE_NOTES" > release_notes.md
+          echo "Generated release notes from CHANGELOG.md for version $VERSION"
 
       # Install dependencies for GUI builds
       - name: Install Dependencies
@@ -146,6 +171,7 @@ jobs:
       - name: Upload macOS Build to Release
         uses: softprops/action-gh-release@v1
         with:
+          body_path: release_notes.md
           files: |
             trtc-go-gui_${{ env.VERSION }}_darwin_amd64.zip
         env:
