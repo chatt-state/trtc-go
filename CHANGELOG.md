@@ -13,6 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [0.0.2] - 2024-03-13
+
+### Added
+
+### Changed
+- Updated release workflow to use CHANGELOG.md content as release notes
+- Improved artifact naming consistency across all platforms
+- Enhanced source code archive naming to follow project conventions (trtc-go-src_VERSION.{zip,tar.gz})
+
+### Fixed
+- Fixed GoReleaser configuration to properly skip publishing step
+- Resolved issues with inconsistent artifact naming in release workflow
+- Improved release process to ensure proper versioning and documentation
+
 ## [0.0.1] - 2024-03-13
 
 ### Added
