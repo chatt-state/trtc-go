@@ -23,6 +23,29 @@ jobs:
           go-version: '1.23'
           cache: true
 
+      # Extract version from tag
+      - name: Set Version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version: $VERSION"
+      
+      # Create a release with notes from CHANGELOG.md
+      - name: Create Release with Changelog
+        run: |
+          # Extract the relevant section from CHANGELOG.md
+          VERSION=${{ env.VERSION }}
+          # Use awk to extract the section for the current version
+          NOTES=$(awk -v ver="## [$VERSION]" 'BEGIN{flag=0} $0~ver{flag=1} flag&&/^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{if($0!=ver)flag=0} flag{print}' CHANGELOG.md)
+          # Create the release using GitHub CLI
+          gh release create v$VERSION \
+            --title "trtc-go v$VERSION" \
+            --notes "$NOTES" \
+            --draft=false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # Install dependencies for GUI builds
       - name: Install Dependencies
         run: |
@@ -35,26 +58,6 @@ jobs:
           go install github.com/fyne-io/fyne-cross@latest
           echo "fyne-cross version:"
           fyne-cross version
-
-      # Extract version from tag
-      - name: Set Version
-        id: version
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Version: $VERSION"
-
-      # Extract release notes from CHANGELOG.md
-      - name: Extract Release Notes
-        id: extract_release_notes
-        run: |
-          # Extract the section for the current version from CHANGELOG.md
-          VERSION=${{ env.VERSION }}
-          # Use awk to extract the section between ## [$VERSION] and the next ## or end of file
-          RELEASE_NOTES=$(awk -v ver="$VERSION" 'BEGIN {section=0} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/ {if (section==1) {exit}; if ($0 ~ "\\[" ver "\\]") {section=1; print; next}} section==1 {print}' CHANGELOG.md)
-          # Save release notes to a file
-          echo "$RELEASE_NOTES" > release_notes.md
-          echo "Generated release notes from CHANGELOG.md for version $VERSION"
 
       # Create source code archives
       - name: Create Source Code Archives
@@ -70,7 +73,7 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --clean --timeout 30m --config .goreleaser.cli.yml
+          args: release --clean --timeout 30m --config .goreleaser.cli.yml --skip-publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -88,18 +91,29 @@ jobs:
           # Rename the output file to match our naming convention
           mv fyne-cross/dist/linux-amd64/TRTC.tar.xz fyne-cross/dist/linux-amd64/trtc-go-gui_${{ env.VERSION }}_linux_amd64.tar.xz
 
-      # Upload GUI builds to the release (excluding macOS)
-      - name: Upload GUI Builds to Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: release_notes.md
-          files: |
-            fyne-cross/dist/windows-amd64/trtc-go-gui_${{ env.VERSION }}_windows_amd64.zip
-            fyne-cross/dist/linux-amd64/trtc-go-gui_${{ env.VERSION }}_linux_amd64.tar.xz
-            trtc-go-src_${{ env.VERSION }}.zip
-            trtc-go-src_${{ env.VERSION }}.tar.gz
+      # Upload assets to the release
+      - name: Upload Assets to Release
+        run: |
+          # Find all CLI artifacts
+          CLI_ARTIFACTS=$(find dist -type f -name "trtc-go-cli_*")
+          
+          # Upload CLI artifacts
+          for artifact in $CLI_ARTIFACTS; do
+            gh release upload v${{ env.VERSION }} "$artifact"
+          done
+          
+          # Upload GUI artifacts
+          gh release upload v${{ env.VERSION }} fyne-cross/dist/windows-amd64/trtc-go-gui_${{ env.VERSION }}_windows_amd64.zip
+          gh release upload v${{ env.VERSION }} fyne-cross/dist/linux-amd64/trtc-go-gui_${{ env.VERSION }}_linux_amd64.tar.xz
+          
+          # Upload source code archives
+          gh release upload v${{ env.VERSION }} trtc-go-src_${{ env.VERSION }}.zip
+          gh release upload v${{ env.VERSION }} trtc-go-src_${{ env.VERSION }}.tar.gz
+          
+          # Upload checksums file
+          gh release upload v${{ env.VERSION }} dist/trtc-go_${{ env.VERSION }}_checksums.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # macOS build using native macOS GitHub runner
   macos-build:
@@ -124,18 +138,6 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Version: $VERSION"
-
-      # Extract release notes from CHANGELOG.md
-      - name: Extract Release Notes
-        id: extract_release_notes
-        run: |
-          # Extract the section for the current version from CHANGELOG.md
-          VERSION=${{ env.VERSION }}
-          # Use awk to extract the section between ## [$VERSION] and the next ## or end of file
-          RELEASE_NOTES=$(awk -v ver="$VERSION" 'BEGIN {section=0} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/ {if (section==1) {exit}; if ($0 ~ "\\[" ver "\\]") {section=1; print; next}} section==1 {print}' CHANGELOG.md)
-          # Save release notes to a file
-          echo "$RELEASE_NOTES" > release_notes.md
-          echo "Generated release notes from CHANGELOG.md for version $VERSION"
 
       # Install dependencies for GUI builds
       - name: Install Dependencies
@@ -169,10 +171,7 @@ jobs:
 
       # Upload macOS build to the release
       - name: Upload macOS Build to Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: release_notes.md
-          files: |
-            trtc-go-gui_${{ env.VERSION }}_darwin_amd64.zip
+        run: |
+          gh release upload v${{ env.VERSION }} trtc-go-gui_${{ env.VERSION }}_darwin_amd64.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

@@ -14,12 +14,6 @@ release:
   prerelease: auto
   draft: false
   name_template: "{{ .ProjectName }} v{{ .Version }}"
-  footer: |
-    ## Installation
-    
-    Download the appropriate package for your operating system and architecture.
-    
-    For more information, see the [README.md](https://github.com/chatt-state/trtc-go/blob/main/README.md).
 
 builds:
   # GUI builds with CGO enabled
@@ -67,15 +61,4 @@ changelog:
       - '^test:'
       - '^ci:'
       - Merge pull request
-      - Merge branch
-  use_github_release_notes: false
-  abbrev: 0
-  groups:
-    - title: 'New Features'
-      regexp: "^.*feat[(\\w)]*:+.*$"
-      order: 0
-    - title: 'Bug Fixes'
-      regexp: "^.*fix[(\\w)]*:+.*$"
-      order: 1
-    - title: 'Other Changes'
-      order: 999 
+      - Merge branch 
