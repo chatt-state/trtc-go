@@ -2,6 +2,68 @@
 
 TRTC-Go is a modern, user-friendly tool for uploading files to the Tennessee Reverse Transfer (TRTC) API. It provides both a command-line interface (CLI) and a graphical user interface (GUI) for ease of use.
 
+## Table of Contents
+- [Installation Guide](#installation-guide)
+  - [Windows Installation](#windows-installation)
+  - [macOS Installation](#macos-installation)
+  - [Linux Installation](#linux-installation)
+- [Features](#features)
+- [Building from Source](#building-from-source)
+- [Usage](#usage)
+  - [GUI Usage](#gui-usage)
+  - [CLI Usage](#cli-usage)
+- [Configuration](#configuration)
+- [Development Setup](#development-setup)
+- [License](#license)
+
+## Installation Guide
+
+### Windows Installation
+
+1. Download the latest Windows release from the [Releases](https://github.com/chatt-state/trtc-go/releases) page.
+   - Look for files named `trtc-go_Windows_x86_64.zip` (for 64-bit Windows) or `trtc-go_Windows_i386.zip` (for 32-bit Windows)
+2. Extract the ZIP file to a location of your choice.
+3. Double-click on `trtc-go-gui.exe` to run the application.
+4. For first-time setup, you may need to configure your API key in the application settings.
+
+### macOS Installation
+
+1. Download the latest macOS release from the [Releases](https://github.com/chatt-state/trtc-go/releases) page.
+   - Look for files named `trtc-go_Darwin_x86_64.dmg` or `trtc-go_Darwin_arm64.dmg` (for Apple Silicon Macs)
+   - Note: "Darwin" is the name of the macOS operating system core
+2. Open Terminal and navigate to your Downloads folder:
+   ```bash
+   cd ~/Downloads
+   ```
+3. Remove the quarantine attribute to allow the app to open:
+   ```bash
+   xattr -c trtc-go-gui.app
+   ```
+4. Move the application to your Applications folder:
+   ```bash
+   mv trtc-go-gui.app /Applications/
+   ```
+5. Open the app from your Applications folder.
+6. For first-time setup, you may need to configure your API key in the application settings.
+
+### Linux Installation
+
+1. Download the latest Linux release from the [Releases](https://github.com/chatt-state/trtc-go/releases) page.
+   - Look for files named `trtc-go_Linux_x86_64.tar.gz` (for 64-bit Linux) or `trtc-go_Linux_i386.tar.gz` (for 32-bit Linux)
+   - For ARM-based systems like Raspberry Pi, look for `trtc-go_Linux_armv6.tar.gz` or `trtc-go_Linux_arm64.tar.gz`
+2. Extract the archive file:
+   ```bash
+   tar -xzf trtc-go_Linux_x86_64.tar.gz
+   ```
+3. Make the file executable:
+   ```bash
+   chmod +x trtc-go-gui
+   ```
+4. Run the application:
+   ```bash
+   ./trtc-go-gui
+   ```
+
 ## Features
 
 - Upload Courses, Equivalencies, Students, and Student Courses files
@@ -11,13 +73,7 @@ TRTC-Go is a modern, user-friendly tool for uploading files to the Tennessee Rev
 - Detailed logging and error reporting
 - Cross-platform support (Windows, macOS, Linux)
 
-## Installation
-
-### Binary Installation
-
-Download the latest release for your platform from the [Releases](https://github.com/chatt-state/trtc-go/releases) page.
-
-### Building from Source
+## Building from Source
 
 ```bash
 # Clone the repository
@@ -80,7 +136,53 @@ This project uses [GoReleaser](https://goreleaser.com/) to automate the release 
 
 2. GitHub Actions will automatically build and release the binaries for all platforms.
 
-### Development Setup
+## Usage
+
+### GUI Usage
+
+The graphical interface provides an intuitive way to upload files to the TRTC system.
+
+1. Launch the application by double-clicking the executable (Windows) or opening the app (macOS).
+2. Configure your API key if this is your first time using the application.
+3. Use the file selection buttons to choose your data files for upload.
+4. Click the "Upload" button to begin the upload process.
+5. View the logs panel for detailed information about the upload process.
+
+### CLI Usage
+
+```bash
+# Upload a courses file
+trtc-go upload -apikey="your-api-key" -courses="path/to/courses.csv"
+
+# Upload multiple file types
+trtc-go upload -apikey="your-api-key" -courses="path/to/courses.csv" -equivalencies="path/to/equivalencies.csv"
+
+# Configure settings
+trtc-go config set -endpoint="https://api.example.com"
+
+# Get help
+trtc-go help
+```
+
+## Configuration
+
+TRTC-Go stores its configuration in a file located at:
+
+- Windows: `%APPDATA%\trtc-go\config.yaml`
+- macOS: `$HOME/Library/Application Support/trtc-go/config.yaml`
+- Linux: `$HOME/.config/trtc-go/config.yaml`
+
+You can edit this file directly or use the configuration commands in the CLI.
+
+### API Endpoint
+
+The default API endpoint is set to `https://rts.tnreversetransfer.org/api/Upload`. If you need to change it, you can use the following command:
+
+```bash
+trtc-go config set --endpoint="https://your-api-endpoint.com"
+```
+
+## Development Setup
 
 This project uses pre-commit hooks to ensure code quality and that tests pass before commits. To set up the pre-commit hooks:
 
@@ -127,46 +229,6 @@ scripts\setup-dev.bat
    ```
 
 Now, every time you commit, the pre-commit hooks will run to ensure tests pass and code quality is maintained.
-
-## Usage
-
-### GUI
-
-Simply run the `trtc-go-gui` executable. The application will guide you through the process of uploading files.
-
-### CLI
-
-```bash
-# Upload a courses file
-trtc-go upload -apikey="your-api-key" -courses="path/to/courses.csv"
-
-# Upload multiple file types
-trtc-go upload -apikey="your-api-key" -courses="path/to/courses.csv" -equivalencies="path/to/equivalencies.csv"
-
-# Configure settings
-trtc-go config set -endpoint="https://api.example.com"
-
-# Get help
-trtc-go help
-```
-
-## Configuration
-
-TRTC-Go stores its configuration in a file located at:
-
-- Windows: `%APPDATA%\trtc-go\config.yaml`
-- macOS: `$HOME/Library/Application Support/trtc-go/config.yaml`
-- Linux: `$HOME/.config/trtc-go/config.yaml`
-
-You can edit this file directly or use the configuration commands in the CLI.
-
-### API Endpoint
-
-The default API endpoint is set to `https://rts.tnreversetransfer.org/api/Upload`. If you need to change it, you can use the following command:
-
-```bash
-trtc-go config set --endpoint="https://your-api-endpoint.com"
-```
 
 ## License
 
